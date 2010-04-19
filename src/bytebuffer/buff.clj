@@ -1,14 +1,10 @@
 (ns bytebuffer.buff
-  "Library for simplifying working with java.nio.ByteBuffer
-objects.
+  "Library for packing and unpacking binary data. Simplifies working
+with java.nio.ByteBuffer objects.
 
-The aim here is not to provide a clojure function wrapping every Java
-method. Instead the functions here are added to be more convenient or
-more clojurey.
+Notable features:
 
-Notable additions are
-
-1. Handles signed and unsigned values pleasently. Usually reading or
+1. Handles signed and unsigned values pleasantly. Usually reading or
 writing unsigned fields with ByteBuffers is a pain because Java
 doesn't have unsigned primitives. The unsigned take-* functions here
 actually return a type that is one step larger than the requested
@@ -16,26 +12,22 @@ type, ex. take-ushort returns an int, and take-uint returns a
 bigint. The larger types are big enough to handle the entire unsigned
 range of the smaller type. Similarly, although there are not separate
 signed and unsigned version, the put-* functions will accept any
-number type and truncate it so positive and negative numbers can be
-stored.
-
-NOTE: Add an overflow check to avoid overflows in put-* functions?
+number type and truncate it so both positive and negative numbers can
+be stored. TODO: Should add an overflow check to avoid overflows in
+put-* functions?
 
 2. Provides pack and unpack functions inspired by Python's struct
 module. Use simple format strings, similar to printf's, to define how
 fields are layed out in the buffer.
 
 Usage:
-
 (pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
 (.flip buff) ; assuming nothing else was written to the buffer
 (unpack buff \"isbb\") => (123 43 24 3)
 
 3. Provides pack-bits and unpack-bits functions for working with bit
-fields within numbers. These are useful for pulling apart flag fields
-in packets.
+fields within numbers. These are useful for pulling apart flag fields.
 "
-  
   (:use [clojure.contrib.def :only [defvar-]])
   (:import (java.nio ByteBuffer ByteOrder))
   )
@@ -50,14 +42,7 @@ bind this.")
 
 (defmacro with-buffer
   "Sets the buffer currently being used by the put-* and take-*
-functions.
-
-I'm considering removing both this and the *byte-buffer* var and
-simplifying all of the put-* and take-* fns. Originally this was added
-avoid the redundancy of specifying the buffer multiple times in a let
-when taking many fields, but now the same thing can be done even
-easier with the pack function. Still undecided though.
-"
+functions which do not take buffers."
   [buffer & body]
   `(binding [*byte-buffer* ~buffer]
      ~@body))
@@ -66,7 +51,6 @@ easier with the pack function. Still undecided though.
   ([val]
      (put-byte *byte-buffer* val))
   ([#^ByteBuffer buff #^Number val]
-                                        ;(println "put-byte" val (class val) (.byteValue)) ; ;
      (.put buff (.byteValue val)))
   )
 
@@ -151,16 +135,12 @@ easier with the pack function. Still undecided though.
 (defn slice-off [#^ByteBuffer buff len]
   "Create a new bytebuffer by slicing off the first len bytes. Also
 consumes the bytes in the given buffer."
-;  (println "slice" len "bytes from" (.remaining buff) "remaining")
-  (when (> len (.remaining buff))
-    (println "slice is too big")
-    )
-;  (when (> len (.remaining buff))
-;    (println (.get buff) " " (.get buff) " " (.get buff) " " (.get buff) " " (.get buff) ))
-  (let [rdbuf (-> buff (.slice) (.limit len))]
-    (.position buff (+ (.position buff) len)) ; advance the actual buffer
-    rdbuf
-    )
+  (if (> len (.remaining buff))
+    (throw (IndexOutOfBoundsException. (str "Cannot slice-off " len " bytes of remaining " (.remaining buff) " bytes.") ))
+    (let [rdbuf (-> buff (.slice) (.limit len))]
+      (.position buff (+ (.position buff) len)) ; advance the actual buffer
+      rdbuf
+      ))
   ) 
 
 (defn- pack-one [buff fmt val]
@@ -184,8 +164,7 @@ The number of characters in fmt must match the number of numbers in vals.
 
 Usage: (pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
 
-Returns buff.
-"
+Returns buff."
   [buff fmt & vals]
   (when-not (= (count fmt) (count vals))
     (throw (IllegalArgumentException. "pack error. Number of format symbols must match number of values.")))
@@ -220,12 +199,10 @@ S - unsigned short
 i - int
 I - unsigned int
 l - long
-L - unsigned long
-"  
+L - unsigned long"  
   [buff fmt]
   (doall (map (partial unpack-one buff) fmt))
   )
-
 
 (defn- bit-val [x]
   (if (instance? Boolean x)
@@ -239,8 +216,7 @@ L - unsigned long
 
 fields => bit-length value
 
-The value can also be a boolean. true is stored as 1, false as 0
-"
+The value can also be a boolean. true is stored as 1, false as 0"
   ([] 0)
   ([& fields]
      (when-not (zero? (mod (count fields) 2))
@@ -281,9 +257,7 @@ Pass a non-positive bit length to skip that many bits without adding a
 corresponding value to the result list.
 
 Passing a field length of 1 will add either a 0 or a 1 to the
-resulting sequence. To get a boolean value instead, pass \b.
-"
-  
+resulting sequence. To get a boolean value instead, pass \b."
   [x & bit-lengths]
   (loop [val x
          results '()
@@ -291,8 +265,6 @@ resulting sequence. To get a boolean value instead, pass \b.
          ; values from the low order bits
          rbit-lens (reverse bit-lengths)]
 
-    ;(println "loop val:" val " results:" results "bitlens:" rbit-lens)
-    
     (if (= '() rbit-lens)
       results
 
@@ -323,6 +295,7 @@ resulting sequence. To get a boolean value instead, pass \b.
   )
 
 (defn bin [x]
+  "Returns x as a binary number in a string"
   (.toString (bigint x) 2)
   )
 
