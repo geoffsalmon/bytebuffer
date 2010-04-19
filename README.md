@@ -22,7 +22,7 @@ data to a bytebuffer.
     (.flip buff)
     (take-int buff) => 84
     (take-byte buff) => -44
-    (take-ubyte buff) => 212 ; -44 is interpreted as 212 when read as unsigned
+    (take-ubyte buff) => 212 ; -44 is interpreted as 212 when read as unsigned byte
 
 Use with-buffer to bind a buffer and avoid passing it to every take-*
 and put-* function.
@@ -58,7 +58,7 @@ pull off a larger piece of data as a separate buffer using slice-off.
     (defn parse-header [buff] ...)
     (defn parse-body [buff] ...)
 
-    (let [hdr (parse-header (slice-off buff 18)) ; slice off 8 byte header
+    (let [hdr (parse-header (slice-off buff 18)) ; slice off 18 byte header
           body (parse-body (slice-off buff (:len hdr))] ; parse body
        ...
     )
