@@ -1,10 +1,31 @@
 # bytebuffer
 
-FIXME: write description
+Library for packing and unpacking binary data. Simplifies working
+with java.nio.ByteBuffer objects.
+
+Handles signed and unsigned values pleasantly. Usually reading or
+writing unsigned fields with ByteBuffers is a pain because Java
+doesn't have unsigned primitives. The unsigned take-* functions here
+actually return a type that is one step larger than the requested
+type, ex. take-ushort returns an int, and take-uint returns a
+bigint. 
 
 ## Usage
 
-FIXME: write
+Provides pack and unpack functions inspired by Python's struct
+module. Use simple format strings, similar to printf's, to define how
+fields are layed out in the buffer.
+
+    (pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
+    (.flip buff) ; assuming nothing else was written to the buffer
+    (unpack buff \"isbb\") => (123 43 24 3)
+
+Provides pack-bits and unpack-bits functions for working with bit
+fields within numbers.
+
+    (pack-bits 2 3 2 true 3 false 1 1) => 2r11010001
+
+    (unpack-bits 2r101011001 4 \b 1 1 2) => (10 true 1 0 1) 
 
 ## Installation
 
@@ -12,4 +33,5 @@ FIXME: write
 
 ## License
 
-FIXME: write
+Copyright (c) Geoff Salmon
+Licensed under [EPL 1.0](http://www.eclipse.org/legal/epl-v10.html)
