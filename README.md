@@ -12,8 +12,8 @@ bigint.
 
 ## Usage
 
-Use put-* and take-* functions for each data type to add and remove
-data to a bytebuffer.
+Use put-* and take-* functions for each data type add to and remove
+from a bytebuffer.
 
     (def buff (byte-buffer 100))
     (put-int buff 84)
@@ -24,8 +24,8 @@ data to a bytebuffer.
     (take-byte buff) => -44
     (take-ubyte buff) => 212 ; -44 is interpreted as 212 when read as unsigned byte
 
-Use with-buffer to bind a buffer and avoid passing it to every take-*
-and put-* function.
+Use with-buffer to bind a default buffer and avoid passing it to every
+take-* and put-* function.
 
     (let [buff (byte-buffer 100)]
       (with-buffer buff
@@ -36,14 +36,14 @@ and put-* function.
       )
     ) => [10 6]
 
-A more compact way to add or remove data the pack and unpack
+A more compact way to add or remove data is the pack and unpack
 functions, which are inspired by Python's struct module. They use
 simple format strings, similar to printf's, to define how fields are
 arranged in the buffer.
 
-    (pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
-    (.flip buff) ; assuming nothing else was written to the buffer
-    (unpack buff \"isbb\") => (123 43 24 3)
+    (pack buff "isbb" 123 43 23 3) ; puts an int, a short and two bytes into buff
+    (.flip buff)
+    (unpack buff "isbb") => (123 43 24 3)
 
 Use the functions pack-bits and unpack-bits to work with bit fields
 within numbers.
