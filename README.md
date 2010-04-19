@@ -50,7 +50,18 @@ within numbers.
 
     (pack-bits 2 3 2 true 3 false 1 1) => 2r11010001
 
-    (unpack-bits 2r101011001 4 \b 1 1 2) => (10 true 1 0 1) 
+    (unpack-bits 2r101011001 4 \b 1 1 2) => (10 true 1 0 1)
+
+When parsing binary file or packet structures it's often useful to
+pull off a larger piece of data as a separate buffer using slice-off.
+
+    (defn parse-header [buff] ...)
+    (defn parse-body [buff] ...)
+
+    (let [hdr (parse-header (slice-off buff 18)) ; slice off 8 byte header
+          body (parse-body (slice-off buff (:len hdr))] ; parse body
+       ...
+    )
 
 ## Installation
 
@@ -59,4 +70,5 @@ FIXME: write
 ## License
 
 Copyright (c) Geoff Salmon
+
 Licensed under [EPL 1.0](http://www.eclipse.org/legal/epl-v10.html)
