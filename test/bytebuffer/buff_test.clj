@@ -180,3 +180,15 @@ filled callin the Java put* methods"
   
   (is (= [0x12 0x34 0x5] (unpack-bits 0x12345 0 0 8 8 0 4)) "Weird 0 bit length. Should this be an error instead?")
   )
+
+(deftest slice
+  (let [buff (pack-flip "bbbbbb" 10 11 12 13 14 15)]
+    (is (thrown? IndexOutOfBoundsException (slice-off buff 20)))
+    (let [b1 (slice-off buff 4)]
+      (is (= [10 11 12 13] (unpack b1 "bbbb")))
+      (is (zero? (.remaining b1)))
+
+      (is (thrown? IndexOutOfBoundsException (slice-off buff 4)))
+      (is (= [14 15] (unpack buff "bb")))
+      )
+    ))
