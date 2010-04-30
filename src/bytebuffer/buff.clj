@@ -54,6 +54,7 @@ functions which do not take buffers."
      ~@body))
 
 (defn put-byte
+  "Puts a byte into the buffer"
   ([val]
      (put-byte *byte-buffer* val))
   ([#^ByteBuffer buff #^Number val]
@@ -61,6 +62,7 @@ functions which do not take buffers."
   )
 
 (defn put-short
+  "Puts a short (2 bytes) into the buffer"
   ([val]
      (put-short *byte-buffer* val))
   ([#^ByteBuffer buff #^Number val]
@@ -68,6 +70,7 @@ functions which do not take buffers."
   )
 
 (defn put-int
+  "Puts an int (4 bytes) into the buffer"
   ([val]
      (put-int *byte-buffer* val))
   ([#^ByteBuffer buff #^Number val]
@@ -75,6 +78,7 @@ functions which do not take buffers."
   )
 
 (defn put-long
+  "Puts a long (8 bytes) into the buffer"
   ([val]
      (put-long *byte-buffer* val))
   ([#^ByteBuffer buff #^Number val]
@@ -82,6 +86,7 @@ functions which do not take buffers."
   )
 
 (defn take-byte
+  "Takes a signed byte from the buffer"
   ([]
      (take-byte *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -89,6 +94,7 @@ functions which do not take buffers."
   )
 
 (defn take-ubyte
+  "Takes an unsigned signed byte from the buffer"
   ([]
      (take-ubyte *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -96,6 +102,7 @@ functions which do not take buffers."
   )
 
 (defn take-short
+  "Takes a signed short (2 bytes) from the buffer"
   ([]
      (take-short *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -103,6 +110,7 @@ functions which do not take buffers."
   )
 
 (defn take-ushort
+  "Takes a unsigned short (2 bytes) from the buffer"
   ([]
      (take-ushort *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -110,6 +118,7 @@ functions which do not take buffers."
   )
 
 (defn take-int
+  "Takes a signed int (4 bytes) from the buffer"
   ([]
      (take-int *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -117,6 +126,7 @@ functions which do not take buffers."
   )
   
 (defn take-uint
+  "Takes a unsigned int (4 bytes) from the buffer"
   ([]
      (take-uint *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -124,6 +134,7 @@ functions which do not take buffers."
   )
 
 (defn take-long
+  "Takes a signed long (8 bytes) from the buffer"
   ([]
      (take-long *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -131,6 +142,7 @@ functions which do not take buffers."
   )
   
 (defn take-ulong
+  "Takes a unsigned long (8 bytes) from the buffer"
   ([]
      (take-ulong *byte-buffer*))
   ([#^ByteBuffer buff]
@@ -263,7 +275,7 @@ Pass a non-positive bit length to skip that many bits without adding a
 corresponding value to the result list.
 
 Passing a field length of 1 will add either a 0 or a 1 to the
-resulting sequence. To get a boolean value instead, pass \b."
+resulting sequence. To get a boolean value instead, pass \\b."
   [x & bit-lengths]
   (loop [val x
          results '()

@@ -66,6 +66,10 @@ pull off a larger piece of data as a separate buffer using slice-off.
        ...
     )
 
+See the
+[tests](http://github.com/geoffsalmon/bytebuffer/blob/master/test/bytebuffer/buff_test.clj)
+for more examples.
+
 ## Installation
 
 Either grab the source 
