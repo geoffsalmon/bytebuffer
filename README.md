@@ -11,6 +11,8 @@ actually return a type that is one step larger than the requested
 type, ex. take-ushort returns an int, and take-uint returns a
 bigint. 
 
+See the [API Docs](http://geoffsalmon.github.com/bytebuffer/index.html)
+
 ## Usage
 
 Use put-* and take-* functions for each data type add to and remove
