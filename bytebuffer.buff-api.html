@@ -54,6 +54,30 @@ namespace.
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#bytebuffer.buff/pack-bits">pack-bits</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/put-byte">put-byte</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/put-int">put-int</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/put-long">put-long</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/put-short">put-short</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-byte">take-byte</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-int">take-int</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-long">take-long</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-short">take-short</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-ubyte">take-ubyte</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-uint">take-uint</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-ulong">take-ulong</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#bytebuffer.buff/take-ushort">take-ushort</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#bytebuffer.buff/unpack">unpack</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#bytebuffer.buff/unpack-bits">unpack-bits</a>
@@ -114,7 +138,7 @@ fields within numbers. These are useful for pulling apart flag fields.</pre>
   <pre id="var-usage">Usage: (byte-buffer capacity)
 </pre>
   <pre id="var-docstr">Creates a ByteBuffer of capacity bytes</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L41" id="var-source">Source</a>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L41" id="var-source">Source</a>
 </div><div id="var-entry">
   <br />
   <hr />
@@ -134,7 +158,7 @@ The number of characters in fmt must match the number of numbers in vals.
 Usage: (pack buff "isbb" 123 43 23 3) ; puts an int, a short and two bytes into buff
 
 Returns buff.</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L161" id="var-source">Source</a>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L173" id="var-source">Source</a>
 </div><div id="var-entry">
   <br />
   <hr />
@@ -148,7 +172,127 @@ Returns buff.</pre>
 fields =&gt; bit-length value
 
 The value can also be a boolean. true is stored as 1, false as 0</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L220" id="var-source">Source</a>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L232" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/put-byte">put-byte</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (put-byte val)
+       (put-byte buff val)
+</pre>
+  <pre id="var-docstr">Puts a byte into the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L56" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/put-int">put-int</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (put-int val)
+       (put-int buff val)
+</pre>
+  <pre id="var-docstr">Puts an int (4 bytes) into the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L72" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/put-long">put-long</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (put-long val)
+       (put-long buff val)
+</pre>
+  <pre id="var-docstr">Puts a long (8 bytes) into the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L80" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/put-short">put-short</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (put-short val)
+       (put-short buff val)
+</pre>
+  <pre id="var-docstr">Puts a short (2 bytes) into the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L64" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-byte">take-byte</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-byte)
+       (take-byte buff)
+</pre>
+  <pre id="var-docstr">Takes a signed byte from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L88" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-int">take-int</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-int)
+       (take-int buff)
+</pre>
+  <pre id="var-docstr">Takes a signed int (4 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L120" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-long">take-long</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-long)
+       (take-long buff)
+</pre>
+  <pre id="var-docstr">Takes a signed long (8 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L136" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-short">take-short</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-short)
+       (take-short buff)
+</pre>
+  <pre id="var-docstr">Takes a signed short (2 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L104" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-ubyte">take-ubyte</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-ubyte)
+       (take-ubyte buff)
+</pre>
+  <pre id="var-docstr">Takes an unsigned signed byte from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L96" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-uint">take-uint</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-uint)
+       (take-uint buff)
+</pre>
+  <pre id="var-docstr">Takes a unsigned int (4 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L128" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-ulong">take-ulong</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-ulong)
+       (take-ulong buff)
+</pre>
+  <pre id="var-docstr">Takes a unsigned long (8 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L144" id="var-source">Source</a>
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="bytebuffer.buff/take-ushort">take-ushort</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (take-ushort)
+       (take-ushort buff)
+</pre>
+  <pre id="var-docstr">Takes a unsigned short (2 bytes) from the buffer</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L112" id="var-source">Source</a>
 </div><div id="var-entry">
   <br />
   <hr />
@@ -168,7 +312,7 @@ i - int
 I - unsigned int
 l - long
 L - unsigned long</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L196" id="var-source">Source</a>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L208" id="var-source">Source</a>
 </div><div id="var-entry">
   <br />
   <hr />
@@ -181,8 +325,8 @@ Pass a non-positive bit length to skip that many bits without adding a
 corresponding value to the result list.
 
 Passing a field length of 1 will add either a 0 or a 1 to the
-resulting sequence. To get a boolean value instead, pass .</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L260" id="var-source">Source</a>
+resulting sequence. To get a boolean value instead, pass \b.</pre>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L272" id="var-source">Source</a>
 </div><div id="var-entry">
   <br />
   <hr />
@@ -192,7 +336,7 @@ resulting sequence. To get a boolean value instead, pass .</pre>
 </pre>
   <pre id="var-docstr">Sets the buffer currently being used by the put-* and take-*
 functions which do not take buffers.</pre>
-  <a href="http://github.com/geoffsalmon/bytebuffer/blob/25ffdece889a547752c45a4aa05caf1c001c0435/src/bytebuffer/buff.clj#L49" id="var-source">Source</a>
+  <a href="http://github.com/geoffsalmon/bytebuffer/blob/0d11d14ebc8bfe2d687abd5de0c309f385363501/src/bytebuffer/buff.clj#L49" id="var-source">Source</a>
 </div>
 
 
