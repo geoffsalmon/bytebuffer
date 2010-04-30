@@ -1,5 +1,6 @@
-(ns bytebuffer.buff
-  "Library for packing and unpacking binary data. Simplifies working
+(ns
+    #^{
+       :doc "Library for packing and unpacking binary data. Simplifies working
 with java.nio.ByteBuffer objects.
 
 Notable features:
@@ -21,13 +22,18 @@ module. Use simple format strings, similar to printf's, to define how
 fields are layed out in the buffer.
 
 Usage:
-(pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
-(.flip buff) ; assuming nothing else was written to the buffer
-(unpack buff \"isbb\") => (123 43 24 3)
+ (pack buff \"isbb\" 123 43 23 3) ; puts an int, a short and two bytes into buff
+ (.flip buff) ; assuming nothing else was written to the buffer
+ (unpack buff \"isbb\") => (123 43 24 3)
 
 3. Provides pack-bits and unpack-bits functions for working with bit
 fields within numbers. These are useful for pulling apart flag fields.
 "
+       :see-also [["http://java.sun.com/j2se/1.5.0/docs/api/java/nio/ByteBuffer.html" "java.nio.ByteBuffer Documentation"]]
+}
+
+  bytebuffer.buff
+  
   (:use [clojure.contrib.def :only [defvar-]])
   (:import (java.nio ByteBuffer ByteOrder))
   )

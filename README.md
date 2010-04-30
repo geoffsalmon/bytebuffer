@@ -1,7 +1,8 @@
 # bytebuffer
 
-Library for packing and unpacking binary data. Simplifies working
-with java.nio.ByteBuffer objects.
+Library for packing and unpacking binary data. Simplifies working with
+[java.nio.ByteBuffer](http://java.sun.com/j2se/1.5.0/docs/api/java/nio/ByteBuffer.html)
+objects.
 
 Handles signed and unsigned values pleasantly. Usually reading or
 writing unsigned fields with ByteBuffers is a pain because Java
@@ -65,7 +66,28 @@ pull off a larger piece of data as a separate buffer using slice-off.
 
 ## Installation
 
-FIXME: write
+Either grab the source 
+
+### Leiningen
+
+Add `[bytebuffer "0.1.0"]` to :dependencies in project.clj.
+
+### Maven
+
+Add this dependency
+
+    <dependency>
+      <groupId>bytebuffer</groupId>
+      <artifactId>bytebuffer</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
+and ensure you have the following maven repository added.
+
+    <repository>
+      <id>clojars.org</id>
+      <url>http://clojars.org/repo</url>
+    </repository>
 
 ## License
 
