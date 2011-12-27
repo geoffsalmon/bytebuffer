@@ -33,8 +33,6 @@ fields within numbers. These are useful for pulling apart flag fields.
 }
 
   bytebuffer.buff
-  
-  (:use [clojure.contrib.def :only [defvar-]])
   (:import (java.nio ByteBuffer ByteOrder))
   )
 
@@ -43,8 +41,12 @@ fields within numbers. These are useful for pulling apart flag fields.
   [capacity]
   (ByteBuffer/allocate capacity))
 
-(defvar- *byte-buffer* nil "The current buffer. Use with-buffer to
-bind this.")
+#_(def ^{:tag :dynamic
+       :private true
+       :doc "The current buffer. Use with-buffer to bind this."}
+    *byte-buffer* nil)
+
+(def ^:dynamic *byte-buffer* nil)
 
 (defmacro with-buffer
   "Sets the buffer currently being used by the put-* and take-*

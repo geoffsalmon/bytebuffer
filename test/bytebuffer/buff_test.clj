@@ -1,7 +1,6 @@
 (ns bytebuffer.buff-test
   (:use [bytebuffer.buff] :reload-all)
   (:use [clojure.test])
-  (:use [clojure.contrib math])
   (:import (java.nio ByteBuffer ByteOrder)))
 
 ; choose values that have a different value for each byte
@@ -9,6 +8,22 @@
 (def s 0x302)
 (def i 0x7060504)
 (def l 0x0f0e0d0c0b0a0908)
+
+;; compute powers of 2
+(def pows
+  (conj
+   (vec (reduce (fn [list _] (conj list (* 2 (peek list)))) [1] (range 62)))
+   ;; 2^63
+   0x8000000000000000N))
+
+;; computer powers of 2 minus 1
+(def pows-1
+  {8 0xFF
+   16 0xFFFF
+   32 0xFFFFFFFF
+   64 0xFFFFFFFFFFFFFFFF})
+
+(defn pow2 [e] (nth pows e))
 
 (deftest test-packing
   "Check that buffers filled with pack are identical to those
@@ -55,8 +70,8 @@ filled callin the Java put* methods"
   )
 
 (deftest test-signed-unsigned
-  (let [max-unsigned (map #(dec (expt 2 %)) [8 16 32 64])
-        mid-unsigned (map #(expt 2 %) [7 15 31 63])
+  (let [max-unsigned (vals pows-1)
+        mid-unsigned (map #(pow2 %) [7 15 31 63])
         min-signed (map - mid-unsigned)
         
         buff
@@ -90,12 +105,11 @@ filled callin the Java put* methods"
     )
   )
 
-(def b15 (expt 2 15))
-(def b16 (expt 2 16))
-(def b31 (expt 2 31))
-(def b32 (expt 2 32))
-(def b63 (expt 2 63))
-(def b64 (expt 2 64))
+(def b15 (pow2 15))
+(def b16 (pow2 16))
+(def b31 (pow2 31))
+(def b32 (pow2 32))
+(def b63 (pow2 63))
 
 (defn- pack-flip [fmt & vars]
   (.flip (apply pack (byte-buffer 100) fmt vars))
@@ -146,7 +160,7 @@ filled callin the Java put* methods"
     (is (= b63 (take-ulong buff)))
   
     (is (= -1 (take-long buff)))
-    (is (= (- b64 1) (take-ulong buff)))))
+    (is (= (pows-1 64) (take-ulong buff)))))
 
 
 (deftest test-bit-pack
