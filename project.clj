@@ -1,4 +1,4 @@
-(defproject bytebuffer "0.1.0"
+(defproject bytebuffer "0.2.0"
   :description "Library for packing and unpacking binary data. Simplifies using java.util.ByteBuffer objects."
   :dependencies [[org.clojure/clojure "1.3.0"]]
 ;;  :dev-dependencies [[autodoc "0.7.1"]]

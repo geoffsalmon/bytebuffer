@@ -72,11 +72,12 @@ for more examples.
 
 ## Installation
 
-Either grab the source 
+Either grab the source or use the jar from clojars. Version 0.2.0
+works with Clojure 1.3.
 
 ### Leiningen
 
-Add `[bytebuffer "0.1.0"]` to :dependencies in project.clj.
+Add `[bytebuffer "0.2.0"]` to :dependencies in project.clj.
 
 ### Maven
 
@@ -85,7 +86,7 @@ Add this dependency
     <dependency>
       <groupId>bytebuffer</groupId>
       <artifactId>bytebuffer</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </dependency>
 
 and ensure you have the following maven repository added.
