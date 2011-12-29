@@ -7,15 +7,14 @@ Notable features:
 
 1. Handles signed and unsigned values pleasantly. Usually reading or
 writing unsigned fields with ByteBuffers is a pain because Java
-doesn't have unsigned primitives. The unsigned take-* functions here
-actually return a type that is one step larger than the requested
-type, ex. take-ushort returns an int, and take-uint returns a
-bigint. The larger types are big enough to handle the entire unsigned
-range of the smaller type. Similarly, although there are not separate
-signed and unsigned version, the put-* functions will accept any
-number type and truncate it so both positive and negative numbers can
-be stored. TODO: Should add an overflow check to avoid overflows in
-put-* functions?
+doesn't have unsigned primitives. The take-* functions return a long
+which is big enough to handle the entire unsigned range of most
+types. To handle large unsigned longs, the take-ulong function can
+return either a long or a clojure.lang.BigInt. Similarly, although
+there are not separate signed and unsigned version, the put-*
+functions will accept any number type and truncate it so both positive
+and negative numbers can be stored. TODO: Should add an overflow check
+to avoid overflows in put-* functions?
 
 2. Provides pack and unpack functions inspired by Python's struct
 module. Use simple format strings, similar to printf's, to define how
@@ -59,7 +58,7 @@ functions which do not take buffers."
   "Puts a byte into the buffer"
   ([val]
      (put-byte *byte-buffer* val))
-  ([#^ByteBuffer buff #^Number val]
+  ([^ByteBuffer buff val]
      (.put buff (.byteValue val)))
   )
 
@@ -67,7 +66,7 @@ functions which do not take buffers."
   "Puts a short (2 bytes) into the buffer"
   ([val]
      (put-short *byte-buffer* val))
-  ([#^ByteBuffer buff #^Number val]
+  ([^ByteBuffer buff val]
      (.putShort buff (.shortValue val)))
   )
 
@@ -75,7 +74,7 @@ functions which do not take buffers."
   "Puts an int (4 bytes) into the buffer"
   ([val]
      (put-int *byte-buffer* val))
-  ([#^ByteBuffer buff #^Number val]
+  ([^ByteBuffer buff val]
      (.putInt buff (.intValue val)))
   )
 
@@ -83,63 +82,63 @@ functions which do not take buffers."
   "Puts a long (8 bytes) into the buffer"
   ([val]
      (put-long *byte-buffer* val))
-  ([#^ByteBuffer buff #^Number val]
+  ([^ByteBuffer buff val]
      (.putLong buff (.longValue val)))
   )
 
 (defn take-byte
   "Takes a signed byte from the buffer"
-  ([]
+  (^long []
      (take-byte *byte-buffer*))
-  ([#^ByteBuffer buff]
-     (.get buff))
+  (^long [^ByteBuffer buff]
+         (long (.get buff)))
   )
 
 (defn take-ubyte
   "Takes an unsigned signed byte from the buffer"
-  ([]
+  (^long []
      (take-ubyte *byte-buffer*))
-  ([#^ByteBuffer buff]
-     (bit-and 0xFF (short (.get buff))))
+  (^long [^ByteBuffer buff]
+     (bit-and 0xFF (long (.get buff))))
   )
 
 (defn take-short
   "Takes a signed short (2 bytes) from the buffer"
-  ([]
+  (^long []
      (take-short *byte-buffer*))
-  ([#^ByteBuffer buff]
-     (.getShort buff))
+  (^long [^ByteBuffer buff]
+         (long (.getShort buff)))
   )
 
 (defn take-ushort
   "Takes a unsigned short (2 bytes) from the buffer"
-  ([]
+  (^long []
      (take-ushort *byte-buffer*))
-  ([#^ByteBuffer buff]
-     (bit-and 0xFFFF (int (.getShort buff))))
+  (^long [^ByteBuffer buff]
+     (bit-and 0xFFFF (long (.getShort buff))))
   )
 
 (defn take-int
   "Takes a signed int (4 bytes) from the buffer"
-  ([]
+  (^long []
      (take-int *byte-buffer*))
-  ([#^ByteBuffer buff]
+  (^long [^ByteBuffer buff]
      (.getInt buff))
   )
   
 (defn take-uint
   "Takes a unsigned int (4 bytes) from the buffer"
-  ([]
+  (^long []
      (take-uint *byte-buffer*))
-  ([#^ByteBuffer buff]
+  (^long [^ByteBuffer buff]
      (bit-and 0xFFFFFFFF (long (.getInt buff))))
   )
 
 (defn take-long
   "Takes a signed long (8 bytes) from the buffer"
-  ([]
+  (^long []
      (take-long *byte-buffer*))
-  ([#^ByteBuffer buff]
+  (^long [^ByteBuffer buff]
      (.getLong buff))
   )
   
@@ -147,12 +146,17 @@ functions which do not take buffers."
   "Takes a unsigned long (8 bytes) from the buffer"
   ([]
      (take-ulong *byte-buffer*))
-  ([#^ByteBuffer buff]
-     (bit-and 0xFFFFFFFFFFFFFFFF (bigint (.getLong buff))))
+  ([^ByteBuffer buff]
+         (let [l (.getLong buff)]
+           (if (>= l 0)
+             l
+             ;; add 2^64 to treat the negative 64bit 2's complement
+             ;; num as unsigned.
+             (+ 18446744073709551616N (bigint l)))))
   )
 
 
-(defn slice-off [#^ByteBuffer buff len]
+(defn ^ByteBuffer slice-off [^ByteBuffer buff len]
   "Create a new bytebuffer by slicing off the first len bytes. Also
 consumes the bytes in the given buffer."
   (if (> len (.remaining buff))
@@ -318,4 +322,3 @@ resulting sequence. To get a boolean value instead, pass \\b."
   "Returns x as a binary number in a string"
   (.toString (bigint x) 2)
   )
-

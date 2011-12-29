@@ -70,7 +70,7 @@ filled callin the Java put* methods"
   )
 
 (deftest test-signed-unsigned
-  (let [max-unsigned (vals pows-1)
+  (let [max-unsigned (sort (vals pows-1))
         mid-unsigned (map #(pow2 %) [7 15 31 63])
         min-signed (map - mid-unsigned)
         
