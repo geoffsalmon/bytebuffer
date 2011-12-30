@@ -3,3 +3,5 @@ pom.xml
 lib
 classes
 autodoc/**
+.lein-failures
+.lein-deps-sum
