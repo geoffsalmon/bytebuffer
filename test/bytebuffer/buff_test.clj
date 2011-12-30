@@ -206,3 +206,21 @@ filled callin the Java put* methods"
       (is (= [14 15] (unpack buff "bb")))
       )
     ))
+
+(deftest test-fmt-size
+  (is (= 0 (fmt-size "")))
+  (let [fmts "bBsSiIlL"
+        rand-fmt (fn [n] (apply str (for [i (range n)] (rand-nth fmts))))
+        buf (byte-buffer 100)
+        ;; compare fmt-size result against resulting position after
+        ;; packing zeroes into a buffer
+        test (fn [fmt]
+               (.clear buf)
+               (apply pack buf fmt (repeat (.length fmt) 0))
+               (is (= (.position buf) (fmt-size fmt))))]
+    ;; test all single letter fmt strings
+    (doseq [fmt fmts]
+      (test (str fmt)))
+    ;; test random fmt strings of length >= 2
+    (doseq [i (range 20)]
+      (test (rand-fmt (+ 2 (rand-int 10)))))))

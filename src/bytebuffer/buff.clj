@@ -165,16 +165,35 @@ consumes the bytes in the given buffer."
       (.position buff (+ (.position buff) len)) ; advance the actual buffer
       rdbuf
       ))
-  ) 
+  )
+
+(defn fmt-size [fmt]
+  (reduce (fn [acc f]
+            (+ acc
+               (condp = f
+                 \b 1
+                 \B 1
+                 \s 2
+                 \S 2
+                 \i 4
+                 \I 4
+                 \l 8
+                 \L 8
+                 (throw (IllegalArgumentException. (str "Unknown format symbol \"" fmt \")))
+                 ))) 0 fmt))
 
 (defn- pack-one [buff fmt val]
   (condp = fmt
-        \b (put-byte buff val)
-        \s (put-short buff val)
-        \i (put-int buff val)
-        \l (put-long buff val)
-        (throw (IllegalArgumentException. (str "Unknown format symbol \"" fmt \")))
-        ))
+    \b (put-byte buff val)
+    \B (put-byte buff val)
+    \s (put-short buff val)
+    \S (put-short buff val)
+    \i (put-int buff val)
+    \I (put-int buff val)
+    \l (put-long buff val)
+    \L (put-long buff val)
+    (throw (IllegalArgumentException. (str "Unknown format symbol \"" fmt \")))
+    ))
 
 (defn pack
   "Puts one or more numbers for vals into buff using field sizes
