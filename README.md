@@ -9,9 +9,12 @@ writing unsigned fields with ByteBuffers is a pain because Java
 doesn't have unsigned primitives. The unsigned take-* functions here
 actually return a type that is one step larger than the requested
 type, ex. take-ushort returns an int, and take-uint returns a
-bigint. 
+bigint.
 
 See the [API Docs](http://geoffsalmon.github.com/bytebuffer/index.html)
+
+If you're serializing or deserializing data, you should also checkout
+[gloss](https://github.com/ztellman/gloss).
 
 ## Usage
 
